@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">KmpTest</string>
+    <string name="dialog_title_info">Info</string>
+    <string name="button_ok">Ok</string>
+    <string name="button_start">Start</string>
+    <string name="statistic">Statistic</string>
+    <string name="crypto_time">Time:  %1$s</string>
+    <string name="crypto_low_price">Low price:  %1$s</string>
+    <string name="crypto_high_price">High price:  %1$s</string>
+    <string name="crypto_currency">Currency:  %1$s</string>
+    <string name="error_reason">Error: %1$s</string>
+    <string name="menu_permissions">Permissions</string>
+    <string name="menu_data_collecting">Data collecting</string>
+    <string name="crypto_minimum_price">Minimum price:  %1$s</string>
+    <string name="crypto_maximum_price">Maximum price:  %1$s</string>
+    <string name="button_grant_permisions">Grant permissions</string>
+    <string name="button_request_permissions">Request permissions</string>
+</resources>

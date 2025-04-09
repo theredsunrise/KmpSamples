@@ -1,0 +1,55 @@
+[versions]
+agp = "8.9.0"
+android-compileSdk = "35"
+android-minSdk = "24"
+android-targetSdk = "35"
+androidx-activityCompose = "1.10.1"
+androidx-lifecycle = "2.8.4"
+androidx-windowclass = "1.7.3"
+androidx-navigation = "2.8.0-alpha10"
+compose-multiplatform = "1.7.3"
+compose-android-bom = "2025.03.01"
+kotlin = "2.1.20"
+datetime = "0.6.2"
+koin = "4.0.0"
+ktor = "3.1.1"
+room = "2.7.0-rc03"
+room_sqlite = "2.5.0-rc03"
+ksp = "2.1.20-1.0.32"
+
+[libraries]
+#Android
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-android-bom" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-compose-adaptive = { module = "androidx.compose.material3.adaptive:adaptive" }
+ktor-engine-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+
+#Common
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+material3-windowSizeClass = { module = "org.jetbrains.compose.material3:material3-window-size-class", version.ref = "androidx-windowclass" }
+
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-viewmodel-compose = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+koin-compose = { module = " io.insert-koin:koin-compose", version.ref = "koin" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+ktor-serializer-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "room_sqlite" }
+
+#iOS
+ktor-engine-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
