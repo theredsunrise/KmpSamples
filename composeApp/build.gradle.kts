@@ -23,6 +23,14 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+        dependencies {
+            val composeBom = platform(libs.androidx.compose.bom)
+            implementation(composeBom)
+            releaseCompileOnly(compose.uiTooling)
+            releaseCompileOnly(compose.preview)
+            debugImplementation(compose.uiTooling)
+            debugImplementation(compose.preview)
+        }
     }
 
     listOf(
@@ -42,8 +50,6 @@ kotlin {
             implementation(libs.material3.windowSizeClass)
         }
         androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.compose.adaptive)
             implementation(libs.ktor.engine.cio)
@@ -124,8 +130,6 @@ android {
 }
 
 dependencies {
-    val composeBom = platform(libs.androidx.compose.bom)
-    implementation(composeBom)
     setOf(
         "kspAndroid", "kspIosX64", "kspIosArm64", "kspIosSimulatorArm64"
     ).forEach {

@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.hotmovies.presentation.theme.CustomMaterialTheme
-import org.example.kmpsamples.presentation.MenuScreen
 import org.example.kmpsamples.presentation.cryptocurrencies.CryptocurrencyScreen
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel
 import org.example.kmpsamples.presentation.fillMaxSizeModifier
