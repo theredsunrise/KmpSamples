@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    id("io.github.ttypic.swiftklib") version "0.6.4"
 }
 
 kotlin {
@@ -38,6 +39,14 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
+        iosTarget.compilations {
+            val main by getting {
+                cinterops {
+                    create("UILayerView")
+                }
+            }
+        }
+
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
@@ -77,6 +86,13 @@ kotlin {
             implementation(libs.room.bundled)
             implementation(libs.material3.windowSizeClass)
         }
+    }
+}
+
+swiftklib {
+    create("UILayerView") {
+        path = file("native")
+        packageName("com.example.kmpsamples.ui.layerview")
     }
 }
 

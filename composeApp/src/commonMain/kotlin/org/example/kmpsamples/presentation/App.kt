@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -27,6 +28,9 @@ import org.example.kmpsamples.presentation.cryptocurrencies.CryptocurrencyScreen
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel.Actions.TrackCryptocurrencies
 import org.example.kmpsamples.presentation.permissions.PermissionsScreen
+import org.example.kmpsamples.presentation.video.VideoScreen
+import org.example.kmpsamples.presentation.video.videoLooperViewFactory
+import org.example.kmpsamples.presentation.video.viewModel.VideoLooperViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -35,6 +39,9 @@ data object Menu
 
 @Serializable
 data object Permissions
+
+@Serializable
+data object Video
 
 @Serializable
 data object CryptoCurrencies
@@ -79,10 +86,22 @@ fun App() {
                     MenuScreen(
                         fillMaxSizeModifier,
                         onPermissions = { navController.navigate(Permissions) },
-                        onCryptoCurrencies = { navController.navigate(CryptoCurrencies) })
+                        onCryptoCurrencies = { navController.navigate(CryptoCurrencies) },
+                        onVideo = { navController.navigate(Video) })
                 }
                 composable<Permissions> {
                     PermissionsScreen(fillMaxSizeModifier)
+                }
+                composable<Video> {
+
+                    val viewModel = viewModel { VideoLooperViewModel() }
+
+                    VideoScreen(
+                        fillMaxSizeModifier,
+                        viewModel.videos,
+                        videoLooperViewFactory(),
+                        viewModel::doAction
+                    )
                 }
                 composable<CryptoCurrencies> {
                     val viewModel = koinViewModel<CryptocurrencyViewModel>()
