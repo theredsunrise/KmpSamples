@@ -64,6 +64,9 @@ kotlin {
             implementation(libs.ktor.engine.cio)
             implementation(libs.koin.android)
             implementation(libs.material3.windowSizeClass)
+            implementation(libs.androidx.exoplayer)
+            implementation(libs.androidx.exoplayer.compose)
+            implementation(libs.androidx.media3.ui)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

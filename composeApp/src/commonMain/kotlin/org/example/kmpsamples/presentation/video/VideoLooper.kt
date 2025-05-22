@@ -19,13 +19,23 @@ sealed interface VideoLooperState {
 }
 
 interface VideoLooperViewFactoryInterface {
-
     @Composable
     fun Create(
         modifier: Modifier,
         item: VideoLooperViewModel.VideoUIState,
         onVideoLooperState: (state: VideoLooperState) -> Unit
     )
+
+    fun dispose()
 }
 
-expect fun videoLooperViewFactory(): VideoLooperViewFactoryInterface
+expect class VideoLooperViewFactory : VideoLooperViewFactoryInterface {
+    @Composable
+    override fun Create(
+        modifier: Modifier,
+        item: VideoLooperViewModel.VideoUIState,
+        onVideoLooperState: (state: VideoLooperState) -> Unit
+    )
+
+    override fun dispose()
+}

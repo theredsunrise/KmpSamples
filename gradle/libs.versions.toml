@@ -16,6 +16,8 @@ ktor = "3.1.1"
 room = "2.7.0-rc03"
 room_sqlite = "2.5.0-rc03"
 ksp = "2.1.20-1.0.32"
+exo = "1.6.1"
+media3Ui = "1.7.1"
 
 [libraries]
 #Android
@@ -24,6 +26,9 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-compose-adaptive = { module = "androidx.compose.material3.adaptive:adaptive" }
 ktor-engine-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+androidx-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "exo" }
+androidx-exoplayer-compose = { module = "androidx.media3:media3-ui-compose", version.ref = "exo" }
+androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 
 #Common
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }

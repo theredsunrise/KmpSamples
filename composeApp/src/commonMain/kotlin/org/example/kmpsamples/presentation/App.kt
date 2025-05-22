@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,10 +29,11 @@ import org.example.kmpsamples.presentation.cryptocurrencies.CryptocurrencyScreen
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel.Actions.TrackCryptocurrencies
 import org.example.kmpsamples.presentation.permissions.PermissionsScreen
+import org.example.kmpsamples.presentation.video.VideoLooperViewFactoryInterface
 import org.example.kmpsamples.presentation.video.VideoScreen
-import org.example.kmpsamples.presentation.video.videoLooperViewFactory
 import org.example.kmpsamples.presentation.video.viewModel.VideoLooperViewModel
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -93,15 +95,21 @@ fun App() {
                     PermissionsScreen(fillMaxSizeModifier)
                 }
                 composable<Video> {
-
                     val viewModel = viewModel { VideoLooperViewModel() }
+                    val videoLooperViewFactory = koinInject<VideoLooperViewFactoryInterface>()
 
                     VideoScreen(
                         fillMaxSizeModifier,
                         viewModel.videos,
-                        videoLooperViewFactory(),
+                        videoLooperViewFactory,
                         viewModel::doAction
                     )
+
+                    DisposableEffect(Unit) {
+                        onDispose {
+                            videoLooperViewFactory.dispose()
+                        }
+                    }
                 }
                 composable<CryptoCurrencies> {
                     val viewModel = koinViewModel<CryptocurrencyViewModel>()

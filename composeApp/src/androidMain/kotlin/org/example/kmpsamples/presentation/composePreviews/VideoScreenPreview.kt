@@ -24,6 +24,9 @@ private val mockVideoLooperView = object : VideoLooperViewFactoryInterface {
     ) {
         onVideoLooperState(VideoLooperState.ERROR("Error"))
     }
+
+    override fun dispose() {
+    }
 }
 
 private fun createMockItem(id: Int) = VideoUIState(id, "files/$id.mp4", VideoLooperCommand.PAUSE)

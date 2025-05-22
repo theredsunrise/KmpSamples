@@ -7,13 +7,17 @@ import org.example.kmpsamples.presentation.permissions.IOSPermissionManager
 import org.example.kmpsamples.presentation.permissions.PermissionManagerInterface
 import org.example.kmpsamples.presentation.permissions.PermissionManagerProxy
 import org.example.kmpsamples.presentation.permissions.systemPermissionHandlers.SystemPermissionHandlerLocator
+import org.example.kmpsamples.presentation.video.VideoLooperViewFactory
+import org.example.kmpsamples.presentation.video.VideoLooperViewFactoryInterface
 import org.koin.core.module.Module
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 private fun createIosModules(nativeInstances: Map<String, Any>): List<Module> {
     return listOf(
         module {
             single<RoomDatabase.Builder<CryptocurrencyDatabase>> { getDatabaseBuilder<CryptocurrencyDatabase>() }
+            factory<VideoLooperViewFactoryInterface> { VideoLooperViewFactory() } bind VideoLooperViewFactoryInterface::class
         },
         // Uncomment either of the methods below depending on whether you want the kotlin interop or native iOS implementation.
         createPermissionManagerKotlin(),

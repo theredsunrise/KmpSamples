@@ -33,44 +33,52 @@ fun VideoScreen(
     videoLooperViewFactory: VideoLooperViewFactoryInterface,
     doAction: (action: Actions) -> Unit
 ) {
-
     LazyColumn(modifier) {
-        items(videos, key = { it.id }) { video ->
-            var looperState by remember { mutableStateOf<VideoLooperState>(UNLOADED) }
-            Surface(
-                Modifier.fillMaxWidth().requiredHeight(150.dp)
-                    .clickable(enabled = !looperState.isNotReady) {
-                        doAction(Actions.UpdateCommand(video.id, video.command.nextCommand()))
-                    },
-                shape = MaterialTheme.shapes.medium
+        items(videos, key = { it.id }) { videoItem ->
+            VideoItem(videoItem, videoLooperViewFactory, doAction)
+        }
+    }
+}
+
+@Composable
+private fun VideoItem(
+    videoItem: VideoUIState,
+    videoLooperViewFactory: VideoLooperViewFactoryInterface,
+    doAction: (action: Actions) -> Unit
+) {
+    var looperState by remember { mutableStateOf<VideoLooperState>(UNLOADED) }
+    Surface(
+        Modifier.fillMaxWidth().requiredHeight(150.dp)
+            .clickable(enabled = !looperState.isNotReady) {
+                doAction(Actions.UpdateCommand(videoItem.id, videoItem.command.nextCommand()))
+            },
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Box(fillMaxSizeModifier) {
+            videoLooperViewFactory.Create(
+                fillMaxSizeModifier.background(MaterialTheme.colorScheme.background), videoItem
             ) {
-
-                Box(fillMaxSizeModifier) {
-                    videoLooperViewFactory.Create(
-                        fillMaxSizeModifier.background(MaterialTheme.colorScheme.background), video
-                    ) {
-                        looperState = it
-                    }
-                    if (looperState.isNotReady) {
-                        Box(fillMaxSizeModifier.background(Color.Gray)) {
-                            when (val currentLooperState = looperState) {
-                                is UNLOADED -> {
-                                    CircularProgressIndicator(Modifier.align(Alignment.Center))
-                                }
-
-                                is ERROR -> {
-                                    Text(
-                                        currentLooperState.reason,
-                                        Modifier.align(Alignment.Center)
-                                    )
-                                }
-
-                                else -> {}
-                            }
+                looperState = it
+            }
+            if (looperState.isNotReady) {
+                Box(fillMaxSizeModifier.background(Color.Gray)) {
+                    when (val currentLooperState = looperState) {
+                        is UNLOADED -> {
+                            CircularProgressIndicator(Modifier.align(Alignment.Center))
                         }
+
+                        is ERROR -> {
+                            Text(
+                                currentLooperState.reason,
+                                Modifier.align(Alignment.Center)
+                            )
+                        }
+
+                        else -> {}
                     }
                 }
             }
+            Text(videoItem.id.toString(), fillMaxSizeModifier, color = Color.Green)
         }
     }
 }
