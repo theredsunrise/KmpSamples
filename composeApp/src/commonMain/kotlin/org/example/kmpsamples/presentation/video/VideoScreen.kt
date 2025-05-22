@@ -78,7 +78,6 @@ private fun VideoItem(
                     }
                 }
             }
-            Text(videoItem.id.toString(), fillMaxSizeModifier, color = Color.Green)
         }
     }
 }
