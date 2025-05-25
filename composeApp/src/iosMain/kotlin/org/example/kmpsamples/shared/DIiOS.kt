@@ -10,6 +10,7 @@ import org.example.kmpsamples.presentation.permissions.systemPermissionHandlers.
 import org.example.kmpsamples.presentation.video.VideoLooperViewFactory
 import org.example.kmpsamples.presentation.video.VideoLooperViewFactoryInterface
 import org.koin.core.module.Module
+import org.koin.core.module.factory
 import org.koin.dsl.bind
 import org.koin.dsl.module
 

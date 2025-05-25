@@ -1,7 +1,7 @@
 # KMPSamples Project
 
 **KMPSamples** is a **Kotlin Multiplatform** project demonstrating the implementation of **runtime
-permission handling** and real-time **cryptocurrency price tracking from the Binance** platform. It is
+permission handling**, real-time **cryptocurrency price tracking from the Binance** platform and **video looping**. It is
 intended for **educational purposes and for learning programming with KMP**.
 The projects use the following features:
 
@@ -13,12 +13,13 @@ The projects use the following features:
 - **Room**
 - **Koin**
 - **Flow**
+- **Native iOS AVQueuePlayer + Android ExoPLayer**
 
 ### Runtime Permission Handling Sample
 
 | Android                                                                          | iOS                                                                      |
 |----------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| <img width="150" src="images/permissions-android.png" alt="Android permissions"> | <img width="150" src="images/permissions-ios.png" alt="iOS permissions"> |
+| <img width="150" src="images/permissions-android.png" alt="Android permissions"> | <img width="155" src="images/permissions-ios.png" alt="iOS permissions"> |
 
 The first sample showcases the implementation of runtime permission handling for both Android and
 iOS platforms:
@@ -109,11 +110,23 @@ The second project demonstrates how to use `Ktor-client` websockets for real-tim
 price tracking.
 
 - The data is stored locally using the `Room` framework.
-- It is saved in the database in a **circular buffer style** with a defined capacity.
-- Additionally, a **database view** was created to display statistics for individual
+- It is saved in the database in a `circular buffer style` with a defined capacity.
+- Additionally, a `database view` was created to display statistics for individual
   cryptocurrencies.
 
 An example of its usage can be found in the `CryptocurrencyScreen`.
+
+### Video Looping Sample
+
+| Android                                                                     | iOS                                                                 |
+|-----------------------------------------------------------------------------|---------------------------------------------------------------------|
+| <img width="150" src="images/videos-android.jpg" alt="Android permissions"> | <img width="175" src="images/videos-ios.jpg" alt="iOS permissions"> |
+
+The third project demonstrates how to use a native video player in KMP Compose. 
+On the `Android side, ExoPlayer` was used and embedded into Compose using `AndroidView`, 
+while on the `iOS side, AVQueuePlayer` was used and integrated into Compose via `UIKitView`.
+
+An example of its usage can be found in the `VideoScreen`.
 
 ---
 

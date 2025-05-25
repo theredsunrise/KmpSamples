@@ -144,8 +144,13 @@ class ExoPlayerPool(private val applicationContext: Context, capacity: Int = 10)
         }
     }
 
+    init {
+        println("***** Pool, created")
+    }
+
     @OptIn(UnstableApi::class)
     private fun create(id: Int): ExoPlayerItem {
+        println("***** Pool, create new instance of the ExoPlayer")
         return ExoPlayerItem(
             id,
             ExoPlayer.Builder(applicationContext)
@@ -158,7 +163,7 @@ class ExoPlayerPool(private val applicationContext: Context, capacity: Int = 10)
 
     override fun dispose() {
         pool.forEach { item ->
-            println("***** release ExoPlayer ${item.exoPlayerItem.id}")
+            println("***** Pool, release of the ExoPlayer ${item.exoPlayerItem.id}")
             item.exoPlayerItem.release(null)
         }
         pool.clear()

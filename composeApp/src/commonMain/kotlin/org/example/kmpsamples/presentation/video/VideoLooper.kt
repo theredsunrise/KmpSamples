@@ -25,7 +25,6 @@ interface VideoLooperViewFactoryInterface {
         item: VideoLooperViewModel.VideoUIState,
         onVideoLooperState: (state: VideoLooperState) -> Unit
     )
-
     fun dispose()
 }
 
