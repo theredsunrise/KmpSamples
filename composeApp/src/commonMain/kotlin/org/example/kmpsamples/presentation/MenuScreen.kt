@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import kmpsamples.composeapp.generated.resources.Res
 import kmpsamples.composeapp.generated.resources.menu_data_collecting
 import kmpsamples.composeapp.generated.resources.menu_permissions
+import kmpsamples.composeapp.generated.resources.menu_transitions
 import kmpsamples.composeapp.generated.resources.menu_video
 import org.jetbrains.compose.resources.stringResource
 
@@ -21,7 +22,8 @@ fun MenuScreen(
     modifier: Modifier,
     onPermissions: () -> Unit,
     onCryptoCurrencies: () -> Unit,
-    onVideo: () -> Unit
+    onVideo: () -> Unit,
+    onTransitions: () -> Unit
 ) {
     Column(
         modifier,
@@ -38,6 +40,10 @@ fun MenuScreen(
         Spacer(Modifier.requiredHeight(20.dp))
         Button(onClick = onVideo) {
             Text(stringResource(Res.string.menu_video))
+        }
+        Spacer(Modifier.requiredHeight(20.dp))
+        Button(onClick = onTransitions) {
+            Text(stringResource(Res.string.menu_transitions))
         }
     }
 
