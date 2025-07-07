@@ -1,6 +1,5 @@
 package org.example.kmpsamples.presentation.cryptocurrencies.viewModel
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,7 +29,6 @@ class CryptocurrencyViewModel(
     ViewModel() {
 
     @Stable
-    @Immutable
     data class UIState(
         val wasStarted: Boolean = false,
         val statistic: ResultState<List<KLineStatisticUIState>> = None,

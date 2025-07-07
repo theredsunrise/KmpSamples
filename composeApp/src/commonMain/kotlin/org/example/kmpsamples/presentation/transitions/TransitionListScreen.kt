@@ -44,7 +44,8 @@ fun TransitionListScreen(
             stickyHeader {
                 Text(
                     groupOfItems.key,
-                    fillMaxWidthModifier.padding(bottom = 10.dp) .background(MaterialTheme.colorScheme.primary)
+                    fillMaxWidthModifier.padding(bottom = 10.dp)
+                        .background(MaterialTheme.colorScheme.primary)
                         .requiredHeight(50.dp).padding(8.dp),
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center
@@ -60,13 +61,13 @@ fun TransitionListScreen(
                         with(sharedTransitionScope) {
                             TransitionListItem(
                                 Modifier.sharedBounds(
-                                rememberSharedContentState(it.id),
-                                animatedContentTransitionScope
-                            )
-                                .clickable { onItemClicked(it.id) }
-                                .weight(1f)
-                                .padding(4.dp)
-                                .height(300.dp), it)
+                                    rememberSharedContentState(it.id),
+                                    animatedContentTransitionScope
+                                )
+                                    .clickable { onItemClicked(it.id) }
+                                    .weight(1f)
+                                    .padding(4.dp)
+                                    .height(300.dp), it)
                         }
                     }
                     val spacerWeight = (3 - rowItems.size).toFloat()

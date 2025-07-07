@@ -60,7 +60,7 @@ class CryptocurrencyRepository(private val mapper: CryptocurrencyRemoteMapperInt
             } catch (e: Exception) {
                 CollectingDataException(e.safeMessage())
             } finally {
-                println("***** Socket session closed")
+                println("**** Socket session closed")
                 session.close()
             }
 

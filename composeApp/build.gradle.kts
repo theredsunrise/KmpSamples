@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -15,15 +13,9 @@ plugins {
 }
 
 kotlin {
-    compilerOptions {
-        jvmToolchain(21)
-    }
+    jvmToolchain(21)
 
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
         dependencies {
             val composeBom = platform(libs.androidx.compose.bom)
             implementation(composeBom)
@@ -43,6 +35,8 @@ kotlin {
             val main by getting {
                 cinterops {
                     create("UILayerView")
+                    create("GalleryPickerHelper")
+                    create("WrapperVC")
                 }
             }
         }
@@ -94,8 +88,17 @@ kotlin {
 
 swiftklib {
     create("UILayerView") {
-        path = file("native")
+        path = file("native/UILayerView")
         packageName("com.example.kmpsamples.ui.layerview")
+    }
+    create("GalleryPickerHelper") {
+        path = file("native/GalleryPickerHelper")
+        packageName("com.example.kmpsamples.ui.galleryimagepicker")
+    }
+    create("WrapperVC") {
+        minIos = 14
+        path = file("native/WrapperVC")
+        packageName("com.example.kmpsamples.ui.wrappervc")
     }
 }
 
@@ -141,10 +144,6 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 

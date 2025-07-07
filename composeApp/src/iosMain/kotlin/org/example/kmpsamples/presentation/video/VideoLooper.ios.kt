@@ -37,7 +37,7 @@ actual class VideoLooperViewFactory : VideoLooperViewFactoryInterface {
         val videoLooperState by videoLooperController.state.collectAsStateWithLifecycle()
 
         LaunchedEffect(videoLooperState) {
-            println("***** looper state: $videoLooperState")
+            println("**** Looper state: $videoLooperState")
             onVideoLooperStateCallback(videoLooperState)
         }
         if (videoLooperController.isReady()) {
@@ -60,14 +60,14 @@ actual class VideoLooperViewFactory : VideoLooperViewFactoryInterface {
                 val view = UILayerView()
                 coroutineScope.launch {
                     delay(120)
-                    println("***** load UIKitView ${item.id}")
+                    println("**** Load UIKitView ${item.id}")
                     videoLooperController.load(item.url)
                     videoLooperController.attachToView(view)
                 }
                 view
             },
             onRelease = {
-                println("***** release UIKitView ${item.id}")
+                println("**** Release UIKitView ${item.id}")
                 videoLooperController.detachFromView(it)
             },
             modifier = modifier
@@ -77,3 +77,4 @@ actual class VideoLooperViewFactory : VideoLooperViewFactoryInterface {
     actual override fun dispose() {
     }
 }
+

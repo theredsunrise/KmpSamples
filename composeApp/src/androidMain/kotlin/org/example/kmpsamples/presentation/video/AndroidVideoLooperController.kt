@@ -25,7 +25,7 @@ class AndroidVideoLooperController(
     val state: StateFlow<VideoLooperState> = _state
 
     override fun onPlayerError(error: PlaybackException) {
-        println("***** onPlayerError $error")
+        println("**** OnPlayerError $error")
         _state.tryEmit(VideoLooperState.ERROR(error.localizedMessage ?: error.message.orEmpty()))
     }
 
@@ -37,7 +37,7 @@ class AndroidVideoLooperController(
             }
         }
 
-        println("***** onPlaybackStateChanged $state")
+        println("**** OnPlaybackStateChanged $state")
         when (state) {
             STATE_READY -> _state.tryEmit(LOADED)
             STATE_ENDED -> _state.tryEmit(PAUSED)
@@ -47,7 +47,7 @@ class AndroidVideoLooperController(
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
-        println("***** onIsPlayingChanged  $isPlaying")
+        println("**** OnIsPlayingChanged  $isPlaying")
         if (isPlaying) {
             _state.tryEmit(PLAYING)
         } else {
@@ -59,7 +59,7 @@ class AndroidVideoLooperController(
         if (view.player == null) {
             return false
         }
-        println("***** detachFromView")
+        println("**** DetachFromView")
         pause()
         view.player = null
         return true
@@ -69,7 +69,7 @@ class AndroidVideoLooperController(
         if (exoPlayerItem != null) {
             return false
         }
-        println("***** attachToView")
+        println("**** AttachToView")
         val exoPlayerItem = pool.take()
         view.player = exoPlayerItem.exoPlayer
         this@AndroidVideoLooperController.exoPlayerItem = exoPlayerItem
@@ -78,39 +78,39 @@ class AndroidVideoLooperController(
 
     @OptIn(UnstableApi::class)
     fun load(url: String) {
-        println("***** load")
+        println("**** Load")
         exoPlayerItem?.load(url, this@AndroidVideoLooperController)
     }
 
     fun play() {
         if (!isPlaying() && isReady()) {
-            println("***** Start")
+            println("**** Start")
             exoPlayerItem?.play()
         }
     }
 
     fun isReady(): Boolean {
         val status = exoPlayerItem?.isReady() == true
-        println("***** isReady $status")
+        println("**** IsReady $status")
         return status
     }
 
     fun isPlaying(): Boolean {
         val status = exoPlayerItem?.isPLaying() == true
-        println("***** isPlaying $status")
+        println("**** IsPlaying $status")
         return status
     }
 
     fun pause() {
         if (isPlaying() && isReady()) {
-            println("***** pause")
+            println("**** Pause")
             exoPlayerItem?.pause()
         }
     }
 
     fun clean() {
         exoPlayerItem?.also {
-            println("***** clean")
+            println("**** Clean")
             it.clean(this)
             pool.give(it.id)
         }

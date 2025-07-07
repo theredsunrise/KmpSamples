@@ -94,9 +94,9 @@ class IosVideoLooperController() {
 
     @OptIn(ExperimentalForeignApi::class)
     fun detachFromView(view: UILayerView): Boolean {
-        println("***** detach")
+        println("***** Detach from view")
         val state: Int = view.layer.sublayers?.mapNotNull { it as? AVPlayerLayer }?.sumOf {
-            println("***** remove layer observer")
+            println("**** Remove layer observer")
             it.removeObserver(readyToDisplayObserver, "readyForDisplay")
             it.removeFromSuperlayer()
             1.toInt()
@@ -109,13 +109,13 @@ class IosVideoLooperController() {
     fun attachToView(view: UILayerView): Boolean {
         queuePlayer ?: return false
         detachFromView(view)
-        println("***** attach")
+        println("**** Attach")
 
         val layer = AVPlayerLayer.playerLayerWithPlayer(queuePlayer)
-        println("***** add layer observer")
+        println("**** Add layer observer")
         layer.addObserver(
             readyToDisplayObserver,
-            "readyForDisplay",
+            "ReadyForDisplay",
             NSKeyValueObservingOptionNew,
             null
         )
@@ -129,7 +129,7 @@ class IosVideoLooperController() {
     @OptIn(ExperimentalForeignApi::class)
     fun load(url: String): Boolean {
         dispose()
-        println("***** load")
+        println("**** Load")
 
         val nsUrl = NSURL.URLWithString(url)
         if (nsUrl == null) {
@@ -141,7 +141,7 @@ class IosVideoLooperController() {
         val item = AVPlayerItem(nsUrl)
         val loopPlayer = AVPlayerLooper.playerLooperWithPlayer(queuePlayer, item)
 
-        println("***** add observers")
+        println("**** Add observers")
         queuePlayer.addObserver(
             timeControlStatusObserver, "timeControlStatus", NSKeyValueObservingOptionNew, null
         )
@@ -158,7 +158,7 @@ class IosVideoLooperController() {
 
     fun play() {
         if (!isPlaying() && isReady()) {
-            println("***** play")
+            println("**** Play")
             queuePlayer?.play()
         }
     }
@@ -166,29 +166,29 @@ class IosVideoLooperController() {
     fun isReady(): Boolean {
         val status =
             queuePlayer?.status == AVPlayerStatusReadyToPlay && playerLayer?.readyForDisplay == true
-        println("***** isReady $status")
+        println("**** IsReady $status")
         return status
     }
 
     fun isPlaying(): Boolean {
         val status = queuePlayer?.timeControlStatus == AVPlayerTimeControlStatusPlaying
-        println("***** isPlaying $status")
+        println("**** IsPlaying $status")
         return status
     }
 
     fun pause() {
         if (isPlaying() && isReady()) {
-            println("***** pause")
+            println("**** Pause")
             queuePlayer?.pause()
         }
     }
 
     fun dispose() {
-        println("***** dispose")
+        println("**** Dispose")
         queuePlayer?.apply {
             removeObserver(playerStatusObserver, "status")
             removeObserver(timeControlStatusObserver, "timeControlStatus")
-            println("**** remove observers")
+            println("**** Remove observers")
         }
         pause()
         queuePlayer?.removeAllItems()

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kmpsamples.composeapp.generated.resources.Res
 import kmpsamples.composeapp.generated.resources.menu_data_collecting
+import kmpsamples.composeapp.generated.resources.menu_gallery_picker
 import kmpsamples.composeapp.generated.resources.menu_permissions
 import kmpsamples.composeapp.generated.resources.menu_transitions
 import kmpsamples.composeapp.generated.resources.menu_video
@@ -23,7 +24,8 @@ fun MenuScreen(
     onPermissions: () -> Unit,
     onCryptoCurrencies: () -> Unit,
     onVideo: () -> Unit,
-    onTransitions: () -> Unit
+    onTransitions: () -> Unit,
+    onGalleryPickers: () -> Unit
 ) {
     Column(
         modifier,
@@ -44,6 +46,10 @@ fun MenuScreen(
         Spacer(Modifier.requiredHeight(20.dp))
         Button(onClick = onTransitions) {
             Text(stringResource(Res.string.menu_transitions))
+        }
+        Spacer(Modifier.requiredHeight(20.dp))
+        Button(onClick = onGalleryPickers) {
+            Text(stringResource(Res.string.menu_gallery_picker))
         }
     }
 

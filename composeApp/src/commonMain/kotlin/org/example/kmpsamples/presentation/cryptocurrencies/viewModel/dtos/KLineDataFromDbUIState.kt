@@ -1,13 +1,11 @@
 package org.example.kmpsamples.presentation.cryptocurrencies.viewModel.dtos
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import org.example.kmpsamples.application.cryptocurrencies.KlineDataFromDbDto
 import org.example.kmpsamples.shared.ResultState
 import org.example.kmpsamples.shared.transform
 
 @Stable
-@Immutable
 class KLineDataFromDbUIState(item: KlineDataFromDbDto) {
     val symbol: String = item.symbol
     val uiData: ResultState<List<KLineDataUIState>> =

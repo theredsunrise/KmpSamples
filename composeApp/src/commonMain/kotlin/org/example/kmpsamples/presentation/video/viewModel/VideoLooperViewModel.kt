@@ -1,5 +1,6 @@
 package org.example.kmpsamples.presentation.video.viewModel
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import kmpsamples.composeapp.generated.resources.Res
@@ -19,6 +20,7 @@ class VideoLooperViewModel : ViewModel() {
         }
     }
 
+    @Stable
     data class VideoUIState(val id: Int, val url: String, val command: VideoLooperCommand)
 
     private var _videos = mutableStateListOf<VideoUIState>()

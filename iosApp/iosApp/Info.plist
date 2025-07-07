@@ -2,20 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSCalendarsUsageDescription</key>
-    <string>This app needs read access to your calendar so that you can be notified about your friends&apos; birthdays.
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to an image picker to add your avatar photo.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs read access to your calendar so that you can be notified about your friends&apos; birthdays.
 
 This app needs write access to your calendar to add your friends&apos; birthdays.</string>
-    <key>NSCalendarsWriteOnlyAccessUsageDescription</key>
-    <string>This app needs write access to your calendar to add your friends&apos; birthdays.</string>
-    <key>NSCalendarsFullAccessUsageDescription</key>
-    <string>This app needs read access to your calendar so that you can be notified about your friends&apos; birthdays.
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>This app needs write access to your calendar to add your friends&apos; birthdays.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>This app needs read access to your calendar so that you can be notified about your friends&apos; birthdays.
 
 This app needs write access to your calendar to add your friends&apos; birthdays.</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>This app requires to record calls of your friends.</string>
-    <key>NSContactsUsageDescription</key>
-    <string>This app needs read access to your contacts so that you can send messages of your friends.
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires to record calls of your friends.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs read access to your contacts so that you can send messages of your friends.
 
 This app needs write access to your contacts to add your friends.</string>
 	<key>CFBundleDevelopmentRegion</key>

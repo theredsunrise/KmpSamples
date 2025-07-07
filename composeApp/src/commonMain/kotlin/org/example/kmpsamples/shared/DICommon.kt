@@ -15,6 +15,7 @@ import org.example.kmpsamples.infrastructure.network.CryptocurrencyRemoteMapper
 import org.example.kmpsamples.infrastructure.network.CryptocurrencyRepository
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel
 import org.example.kmpsamples.presentation.permissions.viewModel.PermissionViewModel
+import org.example.kmpsamples.presentation.pickers.viewModel.GalleryPickerViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -54,6 +55,9 @@ val commonModules = module {
     viewModelOf(::PermissionViewModel)
     viewModel {
         CryptocurrencyViewModel(get())
+    }
+    viewModel {
+        GalleryPickerViewModel()
     }
 }
 

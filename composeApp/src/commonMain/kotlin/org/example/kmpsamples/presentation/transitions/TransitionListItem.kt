@@ -17,7 +17,7 @@ import kmpsamples.composeapp.generated.resources.Res
 import kmpsamples.composeapp.generated.resources.pineapple
 import org.example.kmpsamples.presentation.fillMaxSizeModifier
 import org.example.kmpsamples.presentation.fillMaxWidthModifier
-import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun TransitionListItem(modifier: Modifier, item: ListItem) {
@@ -28,7 +28,7 @@ fun TransitionListItem(modifier: Modifier, item: ListItem) {
     ) {
         Column(fillMaxSizeModifier) {
             Image(
-                painterResource(Res.drawable.pineapple),
+                vectorResource(Res.drawable.pineapple),
                 item.id.toString(),
                 Modifier.background(Color.Transparent).fillMaxWidth().weight(0.5f)
             )

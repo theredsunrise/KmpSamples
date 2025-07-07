@@ -12,6 +12,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -34,6 +36,9 @@ import org.example.kmpsamples.presentation.cryptocurrencies.CryptocurrencyScreen
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel.Actions.TrackCryptocurrencies
 import org.example.kmpsamples.presentation.permissions.PermissionsScreen
+import org.example.kmpsamples.presentation.pickers.PickerScreen
+import org.example.kmpsamples.presentation.pickers.rememberGalleryPickerManager
+import org.example.kmpsamples.presentation.pickers.viewModel.GalleryPickerViewModel
 import org.example.kmpsamples.presentation.transitions.ListItem
 import org.example.kmpsamples.presentation.transitions.TransitionDetailScreen
 import org.example.kmpsamples.presentation.transitions.TransitionListScreen
@@ -62,6 +67,9 @@ data object TransitionList
 @Serializable
 data class TransitionDetail(val itemId: Int)
 
+@Serializable
+data object GalleryPicker
+
 val fillMaxSizeModifier = Modifier.fillMaxSize()
 val fillMaxWidthModifier = Modifier.fillMaxWidth()
 
@@ -70,7 +78,9 @@ val fillMaxWidthModifier = Modifier.fillMaxWidth()
 fun App() {
     CustomMaterialTheme() {
         val navController = rememberNavController()
+        val snackbarHostState = remember { SnackbarHostState() }
         Scaffold(
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
@@ -105,7 +115,8 @@ fun App() {
                             onPermissions = { navController.navigate(Permissions) },
                             onCryptoCurrencies = { navController.navigate(CryptoCurrencies) },
                             onVideo = { navController.navigate(Video) },
-                            onTransitions = { navController.navigate(TransitionList) })
+                            onTransitions = { navController.navigate(TransitionList) },
+                            onGalleryPickers = { navController.navigate(GalleryPicker) })
                     }
                     composable<TransitionList> {
                         val items = remember {
@@ -178,6 +189,18 @@ fun App() {
                         CryptocurrencyScreen(fillMaxSizeModifier, uiState) {
                             viewModel.doAction(TrackCryptocurrencies(listOf("solusdt", "btcusdt")))
                         }
+                    }
+                    composable<GalleryPicker> {
+                        val viewModel = koinViewModel<GalleryPickerViewModel>()
+                        val uiState = viewModel.state.collectAsStateWithLifecycle()
+
+                        PickerScreen(
+                            fillMaxSizeModifier,
+                            uiState,
+                            rememberGalleryPickerManager(),
+                            snackbarHostState,
+                            viewModel::sendIntent
+                        )
                     }
                 }
             }

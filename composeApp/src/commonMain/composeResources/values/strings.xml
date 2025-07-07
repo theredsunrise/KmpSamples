@@ -12,6 +12,7 @@
     <string name="menu_permissions">Permissions</string>
     <string name="menu_data_collecting">Data collecting</string>
     <string name="menu_video">Video</string>
+    <string name="menu_gallery_picker">Gallery picker</string>
     <string name="menu_transitions">Transitions</string>
     <string name="crypto_minimum_price">Minimum price:  %1$s</string>
     <string name="crypto_maximum_price">Maximum price:  %1$s</string>

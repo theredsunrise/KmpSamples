@@ -48,7 +48,7 @@ actual class VideoLooperViewFactory(private val pool: ExoPlayerPoolInterface) :
         var isAndroidViewInvalidated by remember { mutableStateOf(false) }
 
         LaunchedEffect(videoLooperState) {
-            println("***** looper state: $videoLooperState")
+            println("**** Looper state: $videoLooperState")
             onVideoLooperStateCallback(videoLooperState)
         }
 
@@ -64,7 +64,7 @@ actual class VideoLooperViewFactory(private val pool: ExoPlayerPoolInterface) :
 
         DisposableEffect(Unit) {
             onDispose {
-                println("***** dispose Compose View ${item.id}")
+                println("**** Dispose compose view ${item.id}")
                 coroutineScope.cancel()
             }
         }
@@ -85,20 +85,20 @@ actual class VideoLooperViewFactory(private val pool: ExoPlayerPoolInterface) :
                 coroutineScope.launch {
                     delay(120)
                     if (isAndroidViewInvalidated) return@launch
-                    println("***** load AndroidView ${item.id}")
+                    println("**** Load AndroidView ${item.id}")
                     if (videoLooperController.attachToView(it)) {
                         videoLooperController.load(item.url)
                     }
                 }
             },
             onReset = {
-                println("***** reset AndroidView ${item.id}")
+                println("**** Reset AndroidView ${item.id}")
                 isAndroidViewInvalidated = true
                 videoLooperController.detachFromView(it)
                 videoLooperController.clean()
             },
             onRelease = {
-                println("***** release AndroidView ${item.id}")
+                println("**** Release AndroidView ${item.id}")
                 isAndroidViewInvalidated = true
                 videoLooperController.detachFromView(it)
                 videoLooperController.clean()

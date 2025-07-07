@@ -33,13 +33,11 @@ sealed interface PermissionType {
 }
 
 @Stable
-@Immutable
 @OptIn(ExperimentalObjCName::class)
 @ObjCName(swiftName = "PlatformPermissionType")
 sealed interface PlatformPermissionType {
 
     @Stable
-    @Immutable
     @ObjCName(swiftName = "PlatformSinglePermission")
     data class PlatformSinglePermission(val permission: Permission) :
         PlatformPermissionType {
@@ -51,7 +49,6 @@ sealed interface PlatformPermissionType {
     }
 
     @Stable
-    @Immutable
     @ObjCName(swiftName = "PlatformMultiplePermissions")
     data class PlatformMultiplePermissions(val permissions: List<PlatformSinglePermission>) :
         PlatformPermissionType {

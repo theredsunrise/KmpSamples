@@ -29,7 +29,7 @@ interface ExoPlayerPoolInterface {
 
         fun load(url: String, listener: Player.Listener) {
             if (exoPlayer.isReleased) {
-                println("***** load skipped!")
+                println("**** Load skipped!")
                 return
             }
             val mediaItem = MediaItem.fromUri(url)
@@ -41,7 +41,7 @@ interface ExoPlayerPoolInterface {
 
         fun play() {
             if (exoPlayer.isReleased || !isReady()) {
-                println("***** play skipped! ${exoPlayer.isReleased}")
+                println("**** Play skipped! ${exoPlayer.isReleased}")
                 return
             }
             if (!exoPlayer.isPlaying) {
@@ -52,7 +52,7 @@ interface ExoPlayerPoolInterface {
         @OptIn(UnstableApi::class)
         fun pause() {
             if (exoPlayer.isReleased || !isReady()) {
-                println("***** pause skipped! ${exoPlayer.isReleased}")
+                println("**** Pause skipped! ${exoPlayer.isReleased}")
                 return
             }
             if (exoPlayer.isPlaying) {
@@ -145,12 +145,12 @@ class ExoPlayerPool(private val applicationContext: Context, capacity: Int = 10)
     }
 
     init {
-        println("***** Pool, created")
+        println("**** Pool, created")
     }
 
     @OptIn(UnstableApi::class)
     private fun create(id: Int): ExoPlayerItem {
-        println("***** Pool, create new instance of the ExoPlayer")
+        println("**** Pool, create new instance of the ExoPlayer")
         return ExoPlayerItem(
             id,
             ExoPlayer.Builder(applicationContext)
@@ -163,7 +163,7 @@ class ExoPlayerPool(private val applicationContext: Context, capacity: Int = 10)
 
     override fun dispose() {
         pool.forEach { item ->
-            println("***** Pool, release of the ExoPlayer ${item.exoPlayerItem.id}")
+            println("**** Pool, release of the ExoPlayer ${item.exoPlayerItem.id}")
             item.exoPlayerItem.release(null)
         }
         pool.clear()

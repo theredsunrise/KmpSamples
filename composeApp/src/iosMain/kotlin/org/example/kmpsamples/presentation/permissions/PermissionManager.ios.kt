@@ -59,7 +59,7 @@ class IOSPermissionManager(private val systemPermissionHandlerLocator: SystemPer
     override fun openGrantPermissionsScreen() {
         val url = NSURL.URLWithString(UIApplicationOpenSettingsURLString) ?: return
         UIApplication.sharedApplication.openURL(url, options = emptyMap<Any?, Any>()) { success ->
-            println("Opened app settings: $success")
+            println("**** Opened app settings: $success")
         }
     }
 
