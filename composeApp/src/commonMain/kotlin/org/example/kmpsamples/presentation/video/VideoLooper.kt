@@ -1,9 +1,11 @@
 package org.example.kmpsamples.presentation.video
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import org.example.kmpsamples.presentation.video.viewModel.VideoLooperViewModel
 
+@Immutable
 sealed interface VideoLooperState {
     data object UNLOADED : VideoLooperState
     data object LOADED : VideoLooperState

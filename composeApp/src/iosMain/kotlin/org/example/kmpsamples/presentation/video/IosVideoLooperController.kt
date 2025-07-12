@@ -42,6 +42,10 @@ class IosVideoLooperController() {
     private var _state = MutableStateFlow<VideoLooperState>(UNLOADED)
     val state: StateFlow<VideoLooperState> = _state
 
+    private val READY_FOR_DISPLAY_OBSERVER_NAME = "readyForDisplay"
+    private val TIME_CONTROL_STATUS_OVERVER_NAME = "timeControlStatus"
+    private val PLAYER_STATUS_OBSERVER_NAME = "status"
+
     @OptIn(ExperimentalForeignApi::class)
     private val readyToDisplayObserver = object : NSObject(), NSKeyValueObservingProtocol {
         override fun observeValueForKeyPath(
@@ -93,11 +97,12 @@ class IosVideoLooperController() {
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    fun detachFromView(view: UILayerView): Boolean {
-        println("***** Detach from view")
+    fun detachFromView(view: UILayerView, id: Int): Boolean {
+        check(NSThread.isMainThread)
+        println("***** Detach from view: $id")
         val state: Int = view.layer.sublayers?.mapNotNull { it as? AVPlayerLayer }?.sumOf {
-            println("**** Remove layer observer")
-            it.removeObserver(readyToDisplayObserver, "readyForDisplay")
+            println("**** Remove layer observer: $id")
+            it.removeObserver(readyToDisplayObserver, READY_FOR_DISPLAY_OBSERVER_NAME)
             it.removeFromSuperlayer()
             1.toInt()
         } ?: 0
@@ -106,16 +111,17 @@ class IosVideoLooperController() {
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    fun attachToView(view: UILayerView): Boolean {
+    fun attachToView(view: UILayerView, id: Int): Boolean {
+        check(NSThread.isMainThread)
         queuePlayer ?: return false
-        detachFromView(view)
-        println("**** Attach")
+        detachFromView(view, id)
+        println("**** Attach to view: $id")
 
         val layer = AVPlayerLayer.playerLayerWithPlayer(queuePlayer)
-        println("**** Add layer observer")
+        println("**** Add layer observer: $id")
         layer.addObserver(
             readyToDisplayObserver,
-            "ReadyForDisplay",
+            READY_FOR_DISPLAY_OBSERVER_NAME,
             NSKeyValueObservingOptionNew,
             null
         )
@@ -127,9 +133,9 @@ class IosVideoLooperController() {
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    fun load(url: String): Boolean {
-        dispose()
-        println("**** Load")
+    fun load(url: String, id: Int): Boolean {
+        dispose(id)
+        println("**** Load item: $id")
 
         val nsUrl = NSURL.URLWithString(url)
         if (nsUrl == null) {
@@ -143,11 +149,14 @@ class IosVideoLooperController() {
 
         println("**** Add observers")
         queuePlayer.addObserver(
-            timeControlStatusObserver, "timeControlStatus", NSKeyValueObservingOptionNew, null
+            timeControlStatusObserver,
+            TIME_CONTROL_STATUS_OVERVER_NAME,
+            NSKeyValueObservingOptionNew,
+            null
         )
         queuePlayer.addObserver(
             playerStatusObserver,
-            "status",
+            PLAYER_STATUS_OBSERVER_NAME,
             NSKeyValueObservingOptionNew or NSKeyValueObservingOptionInitial,
             null
         )
@@ -183,12 +192,12 @@ class IosVideoLooperController() {
         }
     }
 
-    fun dispose() {
-        println("**** Dispose")
+    fun dispose(id: Int) {
+        println("**** Dispose item: $id")
         queuePlayer?.apply {
-            removeObserver(playerStatusObserver, "status")
-            removeObserver(timeControlStatusObserver, "timeControlStatus")
-            println("**** Remove observers")
+            removeObserver(playerStatusObserver, PLAYER_STATUS_OBSERVER_NAME)
+            removeObserver(timeControlStatusObserver, TIME_CONTROL_STATUS_OVERVER_NAME)
+            println("**** Remove other observers: $id")
         }
         pause()
         queuePlayer?.removeAllItems()

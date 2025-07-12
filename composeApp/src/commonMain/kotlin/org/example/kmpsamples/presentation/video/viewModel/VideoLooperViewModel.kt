@@ -1,5 +1,6 @@
 package org.example.kmpsamples.presentation.video.viewModel
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @OptIn(ExperimentalResourceApi::class)
 class VideoLooperViewModel : ViewModel() {
+    @Immutable
     enum class VideoLooperCommand {
         START, PAUSE;
 

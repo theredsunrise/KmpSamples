@@ -52,7 +52,7 @@ actual class VideoLooperViewFactory : VideoLooperViewFactoryInterface {
         DisposableEffect(Unit) {
             onDispose {
                 coroutineScope.cancel()
-                videoLooperController.dispose()
+                videoLooperController.dispose(item.id)
             }
         }
         UIKitView(
@@ -60,15 +60,17 @@ actual class VideoLooperViewFactory : VideoLooperViewFactoryInterface {
                 val view = UILayerView()
                 coroutineScope.launch {
                     delay(120)
-                    println("**** Load UIKitView ${item.id}")
-                    videoLooperController.load(item.url)
-                    videoLooperController.attachToView(view)
+                    val id = item.id
+                    println("**** Load UIKitView: $id")
+                    videoLooperController.load(item.url, id)
+                    videoLooperController.attachToView(view, id)
                 }
                 view
             },
             onRelease = {
-                println("**** Release UIKitView ${item.id}")
-                videoLooperController.detachFromView(it)
+                val id = item.id
+                println("**** Release UIKitView: $id")
+                videoLooperController.detachFromView(it, id)
             },
             modifier = modifier
         )
