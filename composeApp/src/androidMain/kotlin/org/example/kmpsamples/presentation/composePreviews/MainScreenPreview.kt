@@ -13,7 +13,14 @@ import org.example.kmpsamples.presentation.fillMaxSizeModifier
 private fun MainScreenPreview() {
     CustomMaterialTheme() {
         Surface(fillMaxSizeModifier.safeDrawingPadding()) {
-            MenuScreen(fillMaxSizeModifier, {}, {}, {}, {}, {})
+            MenuScreen(
+                fillMaxSizeModifier,
+                {},
+                {},
+                {},
+                {},
+                {},
+                {})
         }
     }
 }

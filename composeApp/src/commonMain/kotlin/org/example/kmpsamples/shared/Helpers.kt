@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
@@ -18,6 +17,8 @@ import org.example.kmpsamples.shared.ResultState.Failure
 import org.example.kmpsamples.shared.ResultState.None
 import org.example.kmpsamples.shared.ResultState.Progress
 import org.example.kmpsamples.shared.ResultState.Success
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @OptIn(ExperimentalStdlibApi::class)
 suspend fun checkIfNotMainThread() {
@@ -44,6 +45,7 @@ fun <I, O> ResultState<I>.transform(transform: (I) -> O): ResultState<O> {
     }
 }
 
+@OptIn(ExperimentalTime::class)
 fun millisToLocalDate(epochMillis: Long): LocalDateTime {
     val instant = Instant.fromEpochMilliseconds(epochMillis)
     return instant.toLocalDateTime(TimeZone.currentSystemDefault())

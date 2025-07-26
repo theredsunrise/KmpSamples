@@ -7,7 +7,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.viewinterop.UIKitInteropProperties
 import androidx.compose.ui.viewinterop.UIKitView
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,6 +25,7 @@ import org.example.kmpsamples.presentation.video.viewModel.VideoLooperViewModel.
 @OptIn(ExperimentalForeignApi::class)
 actual class VideoLooperViewFactory : VideoLooperViewFactoryInterface {
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     actual override fun Create(
         modifier: Modifier,
@@ -56,6 +59,9 @@ actual class VideoLooperViewFactory : VideoLooperViewFactoryInterface {
             }
         }
         UIKitView(
+            properties = UIKitInteropProperties(
+                interactionMode = null
+            ),
             factory = {
                 val view = UILayerView()
                 coroutineScope.launch {

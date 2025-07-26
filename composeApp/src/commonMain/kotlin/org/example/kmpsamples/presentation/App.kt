@@ -2,6 +2,9 @@ package org.example.kmpsamples.presentation
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,24 +20,36 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavUri
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
+import androidx.navigation.navOptions
 import androidx.navigation.toRoute
 import com.example.hotmovies.presentation.theme.CustomMaterialTheme
 import kmpsamples.composeapp.generated.resources.Res
 import kmpsamples.composeapp.generated.resources.app_name
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import org.example.kmpsamples.presentation.cryptocurrencies.CryptocurrencyScreen
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel.Actions.TrackCryptocurrencies
+import org.example.kmpsamples.presentation.deepLinks.DeepLinkScreen
+import org.example.kmpsamples.presentation.deepLinks.DeepLinkViewModel
+import org.example.kmpsamples.presentation.deepLinks.IntentHandler
 import org.example.kmpsamples.presentation.permissions.PermissionsScreen
 import org.example.kmpsamples.presentation.pickers.PickerScreen
 import org.example.kmpsamples.presentation.pickers.rememberGalleryPickerManager
@@ -48,6 +63,9 @@ import org.example.kmpsamples.presentation.video.viewModel.VideoLooperViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data class DeepLink(val id: String)
 
 @Serializable
 data object Menu
@@ -78,6 +96,26 @@ val fillMaxWidthModifier = Modifier.fillMaxWidth()
 fun App() {
     CustomMaterialTheme() {
         val navController = rememberNavController()
+
+        LaunchedEffect(Unit) {
+            navController.currentBackStack.collectLatest {
+                it.listIterator().forEach { entry ->
+                    println("**** ${entry.destination}")
+                }
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            withContext(Dispatchers.Main.immediate) {
+                IntentHandler.dataState.collectLatest { uri ->
+                    val navOptions = navOptions {
+                        launchSingleTop = true
+                    }
+                    navController.navigate(deepLink = NavUri(uri), navOptions = navOptions)
+                }
+            }
+        }
+
         val snackbarHostState = remember { SnackbarHostState() }
         Scaffold(
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
@@ -107,8 +145,36 @@ fun App() {
                 NavHost(
                     modifier = fillMaxSizeModifier.padding(paddingValues),
                     navController = navController,
-                    startDestination = Menu
+                    startDestination = Menu,
+                    enterTransition = { fadeIn(animationSpec = tween(300)) },
+                    exitTransition = { fadeOut(animationSpec = tween(300)) },
+                    popExitTransition = { fadeOut(animationSpec = tween(300)) },
+                    popEnterTransition = { fadeIn(animationSpec = tween(300)) }
                 ) {
+                    composable<DeepLink>(
+                        deepLinks = listOf(
+                            navDeepLink<DeepLink>(basePath = "example://kmp_samples.com/test")
+                        )
+                    ) {
+                        val testData = it.toRoute<DeepLink>()
+                        val viewModel = koinViewModel<DeepLinkViewModel>()
+                        val coroutineScope = rememberCoroutineScope()
+
+                        DeepLinkScreen(
+                            modifier = fillMaxSizeModifier,
+                            id = testData.id,
+                            uiEventFlow = viewModel.events,
+                            viewModel::sendIntent,
+                            onUiEvent = {
+                                when (it) {
+                                    is DeepLinkViewModel.Event.ShowToast ->
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar(it.message)
+                                        }
+                                }
+                            }
+                        )
+                    }
                     composable<Menu> {
                         MenuScreen(
                             fillMaxSizeModifier,
@@ -116,7 +182,12 @@ fun App() {
                             onCryptoCurrencies = { navController.navigate(CryptoCurrencies) },
                             onVideo = { navController.navigate(Video) },
                             onTransitions = { navController.navigate(TransitionList) },
-                            onGalleryPickers = { navController.navigate(GalleryPicker) })
+                            onGalleryPickers = { navController.navigate(GalleryPicker) },
+                            onDeepLinks = {
+                                navController.navigate(route = DeepLink("")) {
+                                    this.launchSingleTop = true
+                                }
+                            })
                     }
                     composable<TransitionList> {
                         val items = remember {

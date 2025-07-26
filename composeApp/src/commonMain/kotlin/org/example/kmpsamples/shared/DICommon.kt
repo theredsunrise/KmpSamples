@@ -16,6 +16,7 @@ import org.example.kmpsamples.infrastructure.network.CryptocurrencyRepository
 import org.example.kmpsamples.presentation.cryptocurrencies.viewModel.CryptocurrencyViewModel
 import org.example.kmpsamples.presentation.permissions.viewModel.PermissionViewModel
 import org.example.kmpsamples.presentation.pickers.viewModel.GalleryPickerViewModel
+import org.example.kmpsamples.presentation.deepLinks.DeepLinkViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -52,6 +53,7 @@ val commonModules = module {
         CollectMultipleCryptocurrencyDataUseCase(get())
     }
 
+    viewModelOf(::DeepLinkViewModel)
     viewModelOf(::PermissionViewModel)
     viewModel {
         CryptocurrencyViewModel(get())

@@ -22,14 +22,20 @@ import UIKit
 
     public override var frame: CGRect {
         didSet {
-            self.layer.sublayers?.compactMap { $0 as? AVPlayerLayer }.forEach {
+            self.layer.sublayers?.compactMap {
+                $0 as? AVPlayerLayer
+            }
+            .forEach {
                 $0.frame = self.bounds
             }
         }
     }
     public override var bounds: CGRect {
         didSet {
-            self.layer.sublayers?.compactMap { $0 as? AVPlayerLayer }.forEach {
+            self.layer.sublayers?.compactMap {
+                $0 as? AVPlayerLayer
+            }
+            .forEach {
                 $0.frame = self.bounds
             }
         }

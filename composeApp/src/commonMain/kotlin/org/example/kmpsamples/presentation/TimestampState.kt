@@ -1,7 +1,8 @@
 package org.example.kmpsamples.presentation
 
 import androidx.compose.runtime.Stable
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Stable
 data class TimestampState<T : Any>(val timestamp: Long, val entity: T) {
@@ -11,6 +12,7 @@ data class TimestampState<T : Any>(val timestamp: Long, val entity: T) {
             return create(entity)
         }
 
+        @OptIn(ExperimentalTime::class)
         fun <T : Any> create(entity: T): TimestampState<T> {
             return TimestampState(
                 Clock.System.now().toEpochMilliseconds(),
